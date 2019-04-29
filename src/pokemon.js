@@ -1,4 +1,4 @@
-const POKEMON = [
+const i = [
   {
     height: 10,
     weight: 130,

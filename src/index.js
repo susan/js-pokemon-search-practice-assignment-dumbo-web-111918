@@ -4,28 +4,13 @@ document.addEventListener('DOMContentLoaded', () => {
 //Variables on top
   const pokeDivTag = document.querySelector("#pokemon-container")
   //console.log(pokeDivTag)
-
+  let POKEMON = []
 //fetch actions
-
-  const createPokeCardHTML = pokemon => {
-	  return `<div class="pokemon-card">
-	  	<div class="pokemon-frame">
-	    	<h1 class="center-text">${pokemon.name}</h1>
-	    		<div class="pokemon-image">
-	      		<img data-id=${pokemon.id} data-action="flip" class="toggle-sprite" src=${pokemon.sprites.front}>
-	    		</div>
-	  	</div>
-		</div>`
+  const getPokemon = () => {
+    return fetch(`http://localhost:3000/pokemon`).then(r => r.json())
   }
- const renderAllPokemon = (POKEMON) => {
-  return POKEMON.forEach((poke) => {
-  	//console.log(pokeDivTag.innerHTML)
-  	return pokeDivTag.innerHTML += (createPokeCardHTML(poke))
-  })
-}
 
-renderAllPokemon(POKEMON)
-
+  POKEMON = getPokemon().then(pokemon => POKEMON = pokemon)
   //event listeners
  //get formTag
  //submit search term
@@ -35,12 +20,19 @@ renderAllPokemon(POKEMON)
 
   searchFormInputTag.addEventListener("input", (event) => {
   	//console.log(event.target.value)
-   let filteredPoke = POKEMON.filter((poke) => {
-  	return (poke.name).includes(event.target.value.toLowerCase())
-  	})
-   //console.log(filteredPoke)
-     pokeDivTag.innerHTML = ""
-     	renderAllPokemon(filteredPoke)
+  	//debugger
+     const filteredPoke =
+     	  POKEMON.filter((poke) => {
+  	     return (poke.name).includes(event.target.value.toLowerCase())
+  	   })
+
+     console.log(filteredPoke)
+     //debugger
+       pokeDivTag.innerHTML = ""
+     	 return filteredPoke.forEach((poke) => {
+  	//console.log(pokeDivTag.innerHTML)
+  	     return pokeDivTag.innerHTML += (createPokeCardHTML(poke))
+  	   })
   	    //return pokeDivTag.innerHTML += (createPokeCardHTML(poke))
   })
 
@@ -67,6 +59,32 @@ renderAllPokemon(POKEMON)
   })
 
 //helper functions
+   const createPokeCardHTML = pokemon => {
+	  return `<div class="pokemon-card">
+	  	<div class="pokemon-frame">
+	    	<h1 class="center-text">${pokemon.name}</h1>
+	    		<div class="pokemon-image">
+	      		<img data-id=${pokemon.id} data-action="flip" class="toggle-sprite" src=${pokemon.sprites.front}>
+	    		</div>
+	  	</div>
+		</div>`
+  }
+
+ const renderAllPokemon = () => {
+  return getPokemon().then
+  ( POKEMON => {
+  	POKEMON.forEach((poke) => {
+  	//console.log(pokeDivTag.innerHTML)
+  	  return pokeDivTag.innerHTML += (createPokeCardHTML(poke))
+    })
+  }
+  )
+}
+
+renderAllPokemon()
 
 
-})
+
+
+
+})//end of doc
