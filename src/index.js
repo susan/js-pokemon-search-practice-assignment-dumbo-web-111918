@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   POKEMON = getPokemon().then(pokemon => POKEMON = pokemon)
+  console.log(POKEMON)
   //event listeners
  //get formTag
  //submit search term
@@ -22,18 +23,20 @@ document.addEventListener('DOMContentLoaded', () => {
   	//console.log(event.target.value)
   	//debugger
      const filteredPoke =
-     	  POKEMON.filter((poke) => {
-  	     return (poke.name).includes(event.target.value.toLowerCase())
-  	   })
-
-     console.log(filteredPoke)
-     //debugger
+     	  getPokemon().then(pokemon => {
+     	  	return pokemon.filter((poke) => {
+  	          return (poke.name).includes(event.target.value.toLowerCase())
+  	      })
+        })
+      console.log(filteredPoke)
+   //   debugger
        pokeDivTag.innerHTML = ""
-     	 return filteredPoke.forEach((poke) => {
+     	   filteredPoke.then (pokemon => {
+     	 	   return pokemon.forEach((poke) => {
   	//console.log(pokeDivTag.innerHTML)
-  	     return pokeDivTag.innerHTML += (createPokeCardHTML(poke))
-  	   })
-  	    //return pokeDivTag.innerHTML += (createPokeCardHTML(poke))
+  	          return pokeDivTag.innerHTML += (createPokeCardHTML(poke))
+  	       })
+  	  })
   })
 
 
